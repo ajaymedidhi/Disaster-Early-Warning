@@ -12,6 +12,8 @@ import Reports from "./components/dashboard/Reports"
 
 type Tab = "Dashboard" | "Risk Map" | "Evacuation" | "Rescue Plan" | "Reports";
 
+import logoUrl from "./assets/logo.jpg"
+
 function App() {
   const [selectedHazard, setSelectedHazard] = useState<HazardType>("Floods")
   const [activeTab, setActiveTab] = useState<Tab>("Dashboard")
@@ -138,9 +140,13 @@ function App() {
       
       {/* Sidebar - Hidden on mobile, visible on medium screens and up */}
       <div className="hidden md:flex w-64 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex-col z-20">
-        <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
-          <ShieldAlert className="w-5 h-5 text-primary" />
-          <h1 className="font-bold text-lg tracking-tight uppercase">Sentinel Grid</h1>
+        <div className="px-5 py-6 border-b border-slate-200 dark:border-slate-800 flex flex-col items-center text-center gap-3">
+          <div className="w-16 h-16 rounded-lg bg-white overflow-hidden p-1 border border-slate-200 shadow-sm shrink-0">
+            <img src={logoUrl} alt="The Sentinel Grid Logo" className="w-full h-full object-contain" />
+          </div>
+          <div>
+            <h1 className="font-bold text-lg tracking-tight uppercase leading-none">THE SENTINEL GRID</h1>
+          </div>
         </div>
         <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
           <NavItem icon={<Activity className="w-4 h-4" />} label="Dashboard" active={activeTab === "Dashboard"} onClick={() => setActiveTab("Dashboard")} />
@@ -157,7 +163,9 @@ function App() {
         {/* Header - Flat & Solid */}
         <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center px-4 md:px-6 shadow-sm z-10 justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-primary md:hidden" />
+            <div className="w-8 h-8 rounded bg-white overflow-hidden p-0.5 border border-slate-200 shadow-sm shrink-0 md:hidden">
+              <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+            </div>
             <h2 className="font-semibold text-sm md:text-base tracking-wide uppercase text-slate-600 dark:text-slate-300 truncate max-w-[150px] md:max-w-none">
               {activeTab}
             </h2>
