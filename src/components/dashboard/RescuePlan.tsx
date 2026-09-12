@@ -1,4 +1,4 @@
-import { Truck, CheckCircle2, Clock } from "lucide-react";
+import { Truck, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
