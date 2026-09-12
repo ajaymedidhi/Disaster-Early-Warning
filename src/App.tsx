@@ -134,10 +134,10 @@ function App() {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden font-sans text-slate-900 dark:text-slate-100">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden font-sans text-slate-900 dark:text-slate-100 flex-col md:flex-row">
       
-      {/* Sidebar - Flat & Solid */}
-      <div className="w-64 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex flex-col z-20">
+      {/* Sidebar - Hidden on mobile, visible on medium screens and up */}
+      <div className="hidden md:flex w-64 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex-col z-20">
         <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
           <ShieldAlert className="w-5 h-5 text-primary" />
           <h1 className="font-bold text-lg tracking-tight uppercase">Sentinel Grid</h1>
@@ -152,21 +152,35 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-900">
+      <div className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-900 pb-16 md:pb-0">
         
         {/* Header - Flat & Solid */}
-        <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center px-6 shadow-sm z-10 justify-between">
-          <h2 className="font-semibold text-base tracking-wide uppercase text-slate-600 dark:text-slate-300">Live Intelligence Dashboard / {activeTab}</h2>
-          <div className="flex items-center gap-2 px-3 py-1 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-xs text-red-700 dark:text-red-400 font-semibold">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-            LIVE STREAM ACTIVE
+        <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center px-4 md:px-6 shadow-sm z-10 justify-between shrink-0">
+          <div className="flex items-center gap-2">
+            <ShieldAlert className="w-5 h-5 text-primary md:hidden" />
+            <h2 className="font-semibold text-sm md:text-base tracking-wide uppercase text-slate-600 dark:text-slate-300 truncate max-w-[150px] md:max-w-none">
+              {activeTab}
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 px-2 py-1 md:px-3 md:py-1 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-[10px] md:text-xs text-red-700 dark:text-red-400 font-semibold whitespace-nowrap">
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-red-500 animate-pulse"></span>
+            LIVE STREAM
           </div>
         </header>
 
         {/* Dashboard Content */}
-        <main className="flex-1 overflow-auto p-6 flex flex-col gap-6">
+        <main className="flex-1 overflow-auto p-4 md:p-6 flex flex-col gap-4 md:gap-6">
           {renderContent()}
         </main>
+      </div>
+
+      {/* Bottom Navigation - Visible on mobile only */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-around z-30 px-2 pb-safe">
+        <BottomNavItem icon={<Activity className="w-5 h-5" />} label="Dash" active={activeTab === "Dashboard"} onClick={() => setActiveTab("Dashboard")} />
+        <BottomNavItem icon={<MapIcon className="w-5 h-5" />} label="Map" active={activeTab === "Risk Map"} onClick={() => setActiveTab("Risk Map")} />
+        <BottomNavItem icon={<Route className="w-5 h-5" />} label="Evac" active={activeTab === "Evacuation"} onClick={() => setActiveTab("Evacuation")} />
+        <BottomNavItem icon={<Users className="w-5 h-5" />} label="Rescue" active={activeTab === "Rescue Plan"} onClick={() => setActiveTab("Rescue Plan")} />
+        <BottomNavItem icon={<FileText className="w-5 h-5" />} label="Docs" active={activeTab === "Reports"} onClick={() => setActiveTab("Reports")} />
       </div>
     </div>
   )
@@ -183,6 +197,21 @@ function NavItem({ icon, label, active = false, onClick }: { icon: React.ReactNo
       }`}>
       {icon}
       <span>{label}</span>
+    </button>
+  )
+}
+
+function BottomNavItem({ icon, label, active = false, onClick }: { icon: React.ReactNode, label: string, active?: boolean, onClick?: () => void }) {
+  return (
+    <button 
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${
+        active 
+          ? 'text-primary' 
+          : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+      }`}>
+      {icon}
+      <span className="text-[9px] font-bold uppercase tracking-widest">{label}</span>
     </button>
   )
 }
